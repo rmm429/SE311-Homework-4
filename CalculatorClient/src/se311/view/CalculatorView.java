@@ -84,6 +84,9 @@ public class CalculatorView extends JFrame {
             button.setForeground(Color.WHITE);
         }
 
+        // Ensures color display on Mac
+        button.setOpaque(true);
+
     }
 
 }
