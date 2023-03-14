@@ -7,7 +7,6 @@ import java.util.ArrayList;
 // Composite
 public class MulDivOp extends MulDivExpr {
 
-    private Visitor visitor;
     private ArrayList<Expression> expressions;
 
     public MulDivOp() {
@@ -15,13 +14,15 @@ public class MulDivOp extends MulDivExpr {
     }
 
     @Override
-    public void accept(Visitor _visitor) {
-        visitor = _visitor;
+    public void accept(Visitor visitor) {
+        visitor.visitMulDivOp(this);
+        for (Expression exp : expressions) {
+            exp.accept(visitor);
+        }
     }
 
     @Override
     public void operation() {
-        expressions = new ArrayList<>();
     }
 
     @Override
@@ -31,12 +32,12 @@ public class MulDivOp extends MulDivExpr {
 
     @Override
     public void removeChild(Expression child) {
-
+        expressions.remove(child);
     }
 
     @Override
-    public void getChild(int child) {
-        expressions.get(child);
+    public Expression getChild(int child) {
+        return expressions.get(child);
     }
 
 }

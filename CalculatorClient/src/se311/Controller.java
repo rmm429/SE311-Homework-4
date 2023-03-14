@@ -25,6 +25,7 @@ public class Controller {
 
         // Observer in the Observer Pattern
         ActionListener listener = action -> {
+
             String command = action.getActionCommand();
             calc.updateResults(command);
             // Context in the State Pattern

@@ -5,11 +5,9 @@ import se311.model.visitor.Visitor;
 // Leaf
 public class AtomExpr extends MulDivExpr {
 
-    private Visitor visitor;
-
     @Override
-    public void accept(Visitor _visitor) {
-        visitor = _visitor;
+    public void accept(Visitor visitor) {
+        visitor.visitAtomExpr(this);
     }
 
     @Override

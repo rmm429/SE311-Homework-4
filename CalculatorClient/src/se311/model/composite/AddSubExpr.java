@@ -7,7 +7,6 @@ import java.util.ArrayList;
 // Composite
 public class AddSubExpr implements Expression {
 
-    private Visitor visitor;
     private ArrayList<Expression> expressions;
 
     public AddSubExpr() {
@@ -15,8 +14,11 @@ public class AddSubExpr implements Expression {
     }
 
     @Override
-    public void accept(Visitor _visitor) {
-        visitor = _visitor;
+    public void accept(Visitor visitor) {
+        visitor.visitAddSubExpr(this);
+        for (Expression exp : expressions) {
+            exp.accept(visitor);
+        }
     }
 
     @Override
@@ -35,8 +37,8 @@ public class AddSubExpr implements Expression {
     }
 
     @Override
-    public void getChild(int child) {
-        expressions.get(child);
+    public Expression getChild(int child) {
+        return expressions.get(child);
     }
 
 }
