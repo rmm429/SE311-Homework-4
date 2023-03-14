@@ -1,10 +1,9 @@
 package se311;
 
-import se311.state.*;
+import se311.controller.state.*;
 import se311.view.CalculatorView;
 
 import java.awt.event.ActionListener;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Controller {
 
@@ -30,6 +29,12 @@ public class Controller {
             calc.updateResults(command);
             // Context in the State Pattern
             current = current.handle(command);
+
+//            if (current instanceof Calculate) {
+//                System.out.println("Calculate reached, go back to start");
+//                current = new Start();
+//            }
+
         };
         calc.attachListener(listener);
 
