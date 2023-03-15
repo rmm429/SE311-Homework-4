@@ -25,13 +25,11 @@ public class MulDivOp extends MulDivExpr {
     public void operation() {
     }
 
-    @Override
-    public void addChild(Expression child) {
+    public void addChild(MulDivExpr child) {
         expressions.remove(child);
     }
 
-    @Override
-    public void removeChild(Expression child) {
+    public void removeChild(MulDivExpr child) {
         expressions.remove(child);
     }
 

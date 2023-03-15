@@ -7,6 +7,13 @@ import java.util.ArrayList;
 // Composite
 public class AddSubExpr implements Expression {
 
+    // AddSub Composite can compose another AddSub (aggregation)
+    // Don't need ArrayList, need left child and right child
+    // Can be another AddSub, MulDiv, Atomic (which is MulDiv)
+
+    // Since Atomic is MulDivExpr, AddSub can hold it
+    // Follow the BNF
+
     private ArrayList<Expression> expressions;
 
     public AddSubExpr() {
