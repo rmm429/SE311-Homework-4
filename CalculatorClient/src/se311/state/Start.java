@@ -1,7 +1,5 @@
 package se311.state;
 
-import java.awt.*;
-
 public class Start implements State {
 
     private State next;
@@ -9,15 +7,15 @@ public class Start implements State {
     @Override
     public State handle(String button) {
 
-        String log = "Start: " + button;
+        String log = this.getClass().getSimpleName() + ": " + button;
 
         if (button.matches("[0-9]")) {
             next = new GetFirstOp();
-            log += " -> GetFirstOp";
         } else {
             next = new Start();
-            log += " -> Start";
         }
+
+        log += " -> " + next.getClass().getSimpleName();
 
         System.out.println(log);
         return next;

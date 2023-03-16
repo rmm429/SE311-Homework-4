@@ -7,18 +7,17 @@ public class WaitMulDiv implements State {
     @Override
     public State handle(String button) {
 
-        String log = "WaitMulDiv: " + button;
+        String log = this.getClass().getSimpleName() + ": " + button;
 
         if (button.matches("[0-9]")) {
             next = new CalMulDiv();
-            log += " -> CalMulDiv";
         } else if (button.matches("÷|×|-|\\+|=")) {
             next = new Error();
-            log += " -> Error";
         } else {
             next = new Start();
-            log += " -> Start";
         }
+
+        log += " -> " + next.getClass().getSimpleName();
 
         System.out.println(log);
         return next;

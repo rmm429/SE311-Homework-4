@@ -7,18 +7,17 @@ public class WaitAddSub implements State {
     @Override
     public State handle(String button) {
 
-        String log = "WaitAddSub: " + button;
+        String log = this.getClass().getSimpleName() + ": " + button;
 
         if (button.matches("[0-9]")) {
             next = new GetAddSub();
-            log += " -> GetAddSub";
         } else if (button.matches("÷|×|-|\\+|=")) {
             next = new Error();
-            log += " -> Error";
         } else {
             next = new Start();
-            log += " -> Start";
         }
+
+        log += " -> " + next.getClass().getSimpleName();
 
         System.out.println(log);
         return next;

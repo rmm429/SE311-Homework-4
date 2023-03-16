@@ -1,5 +1,7 @@
 package se311.state;
 
+import se311.dialog.ErrorDialog;
+
 public class Error implements State {
 
     private State next;
@@ -7,10 +9,10 @@ public class Error implements State {
     @Override
     public State handle(String button) {
 
-        String log = "Error: " + button;
+        String log = this.getClass().getSimpleName() + ": " + button;
 
         next = new Start();
-        log += " -> Start";
+        log += " -> " + next.getClass().getSimpleName();
 
         System.out.println(log);
         return next;

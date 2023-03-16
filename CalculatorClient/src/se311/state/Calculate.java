@@ -7,10 +7,10 @@ public class Calculate implements State {
     @Override
     public State handle(String button) {
 
-        String log = "Calculate: " + button;
+        String log = this.getClass().getSimpleName() + ": " + button;
 
         next = new Start();
-        log += " -> Start";
+        log += " -> " + next.getClass().getSimpleName();
 
         System.out.println(log);
         return next;
