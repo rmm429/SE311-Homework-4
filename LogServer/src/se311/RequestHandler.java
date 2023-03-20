@@ -1,5 +1,6 @@
 package se311;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -33,9 +34,7 @@ public class RequestHandler extends Thread {
 
         } catch (SocketException | SocketTimeoutException se) { // Client closed connection
             try { clientSocket.close(); } catch (IOException ioe) { ioe.printStackTrace(); } // close Client socket on Server side
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
+        } catch (IOException | ClassNotFoundException ignore) {}
 
     }
 
