@@ -2,152 +2,100 @@ package se311.composite;
 
 import se311.visitor.Visitor;
 
-import java.util.ArrayList;
-
-// Composite
+// Composite in a Composite pattern
 public class AddSubExpr implements Expression {
 
-    // --- Notes ---
+    private Expression leftChild, rightChild;
+    private String symbol;
 
-    // left branch, right branch, root (operator)
-    // root gets replaced with a number once the tree collapses (intermediate calculation)
+    public AddSubExpr() {
+        leftChild = rightChild = null;
+        symbol = "";
+    }
 
-    // current state is relevant (3 x 5 + 2) vs (3 + 5 x 2)
+    public AddSubExpr(Expression lc, Expression rc) {
+        leftChild = lc;
+        rightChild = rc;
+    }
 
-    // AddSub Composite can compose another AddSub (aggregation)
-    // Don't need ArrayList, need left child and right child
-    // Can be another AddSub, MulDiv, Atomic (which is MulDiv)
-
-    // Since Atomic is MulDivExpr, AddSub can hold it
-    // Follow the BNF
-
+    /**
+     * Let a Visitor perform an operation on a specific addition-subtraction Expresion
+     *
+     * @param	visitor	    a Visitor that handles a certain type of operation
+     */
     @Override
     public void accept(Visitor visitor) {
         visitor.visitAddSubExpr(this);
     }
 
+    /**
+     * Add an expression as the left child of a specific addition-subtraction Expresion
+     *
+     * @param	lc  	    the Expression that will be added as the left child
+     */
+    public void addLeftChild(Expression lc) {
+        leftChild = lc;
+    }
 
+    /**
+     * Add an expression as the right child of a specific addition-subtraction Expresion
+     *
+     * @param	rc  	    the Expression that will be added as the right child
+     */
+    public void addRightChild(Expression rc) {
+        rightChild = rc;
+    }
 
-    // --- Method 3 attempted ---
+    /**
+     * Remove the left child of a specific addition-subtraction Expresion
+     *
+     */
+    public void removeLeftChild() {
+        leftChild = null;
+    }
 
-//    private Expression operand1, operand2;
-//    private String operator;
-//
-//    public AddSubExpr() {
-//        operand1 = operand2 = null;
-//        operator = "";
-//    }
-//
-//    public AddSubExpr(Expression op1, String opr, Expression op2) {
-//        operand1 = op1;
-//        operator = opr;
-//        operand2 = op2;
-//    }
-//
-//    @Override
-//    public void accept(Visitor visitor) {
-//        visitor.visitAddSubExpr(this);
-//    }
-//
-//    @Override
-//    public void addOperand1(Expression op1) {
-//        operand1 = op1;
-//    }
-//
-//    @Override
-//    public void addOperator(String opr) {
-//        operator = opr;
-//    }
-//
-//    @Override
-//    public void addOperand2(Expression op2) {
-//        operand2 = op2;
-//    }
+    /**
+     * Remove the right child of a specific addition-subtraction Expresion
+     *
+     */
+    public void removeRightChild() {
+        rightChild = null;
+    }
 
+    /**
+     * Get the left child of a specific addition-subtraction Expresion
+     *
+     * @return				the left child (Expression)
+     */
+    public Expression getLeftChild() {
+        return leftChild;
+    }
 
+    /**
+     * Get the right child of a specific addition-subtraction Expresion
+     *
+     * @return				the right child (Expression)
+     */
+    public Expression getRightChild() {
+        return rightChild;
+    }
 
-    // --- Method 2 attempted ---
+    /**
+     * Set the symbol (operator) a specific addition-subtraction Expresion
+     *
+     * @param	s  	    the symbol (operator)
+     */
+    public void setSymbol(String s) {
+        symbol = s;
+    }
 
-//    private Expression leftChild, rightChild;
-//    // dont make rightchild null for one expression
-//    // otherwise, if there is only one child, don't use it
-//
-//    public AddSubExpr() {
-//        leftChild = rightChild = null;
-//    }
-//
-//    public AddSubExpr(Expression lc, Expression rc) {
-//        leftChild = lc;
-//        rightChild = rc;
-//    }
-//
-//    @Override
-//    public void accept(Visitor visitor) {
-//        visitor.visitAddSubExpr(this);
-//        leftChild.accept(visitor);
-//        rightChild.accept(visitor);
-//    }
-//
-//    public void addLeftChild(Expression lc) {
-//        leftChild = lc;
-//    }
-//
-//    public void addRightChild(Expression rc) {
-//        rightChild = rc;
-//    }
-//
-//    public void removeLeftChild() {
-//        leftChild = null;
-//    }
-//
-//    public void removeRightChild() {
-//        rightChild = null;
-//    }
-//
-//    public Expression getLeftChild() {
-//        return leftChild;
-//    }
-//
-//    public Expression getRightChild() {
-//        return rightChild;
-//    }
-
-
-    // --- Method 1 attempted ---
-
-//    private ArrayList<Expression> expressions;
-
-//    public AddSubExpr() {
-//        expressions = new ArrayList<>();
-//    }
-
-//    @Override
-//    public void accept(Visitor visitor) {
-//        visitor.visitAddSubExpr(this);
-//        for (Expression exp : expressions) {
-//            exp.accept(visitor);
-//        }
-//    }
-
-
-//    @Override
-//    public void operation() {
-//
-//    }
-
-//    @Override
-//    public void addChild(Expression child) {
-//        expressions.add(child);
-//    }
-//
-//    @Override
-//    public void removeChild(Expression child) {
-//        expressions.remove(child);
-//    }
-//
-//    @Override
-//    public Expression getChild(int child) {
-//        return expressions.get(child);
-//    }
+    /**
+     * Get the symbol (operator) a specific addition-subtraction Expresion
+     *
+     * @return  	    the symbol (operator)
+     */
+    public String getSymbol() {
+        return symbol;
+    }
 
 }

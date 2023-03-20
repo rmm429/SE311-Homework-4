@@ -1,64 +1,36 @@
 package se311.mvc;
 
+import se311.client.Connection;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
-// Create a class that implements ActionListener
-// This listener will be attached to the calculator view
-// has actionPerformed(ActionEvent e)
-
-// This controller takes the observer role in an observer pattern
+// This Controller takes the Observer role in an Observer Pattern
 public class Controller implements ActionListener {
 
-//    private View calc;
-//    private State current;
-
+    public static Connection connection;
     private Model model;
 
-//    public Controller(View _calc) {
-//        calc = _calc;
-//        current = new Start();
-//    }
 
-    public Controller(Model _model) {
+    public Controller(Model _model) throws IOException {
         model = _model;
+        connection = new Connection();
+        connection.connect();
+        System.err.println("State Machine log:");
     }
 
-    // State logic is better in the Model, not controller
-
-
+    /**
+     * Triggered action whenever a button is pressed in the Calculator view
+     *
+     * @param	    e       the button that triggered this action
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        // call Model to do State Transition
-
+        // Label of the button pressed
         String symbol = e.getActionCommand();
+        // Call Model to do State Transition and build Expression tree
         model.updateModel(symbol);
-
-
-
-//        calc.updateResults(command);
-//
-//        // Context in the State Pattern
-//        current = current.handle(command);
-//
-//        if (current instanceof Error) {
-//            ErrorDialog ed = new ErrorDialog();
-//            System.out.println(ed.getSelection());
-//        }
-
-//        // Don't want a button press to be ingested inside of Calculate or Error states
-//        if (current instanceof Calculate || current instanceof Error) {
-//            current = new Start();
-//        }
-
     }
-
-    // changeTree()
-    // one instance of the tree in each context
-
-    // method in each State called changeTree()
-    // States will move forward (next) and change tree (composite)
-    // State will determine if tree is atomic or has children
 
 }

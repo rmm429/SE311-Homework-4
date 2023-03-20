@@ -1,132 +1,137 @@
 package se311.mvc;
 
-import se311.composite.AddSubExpr;
-import se311.composite.AtomExpr;
 import se311.composite.Expression;
-import se311.dialog.ErrorDialog;
 import se311.state.*;
 import se311.state.Error;
-import se311.visitor.Compute;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
+// This Model takes the Context role in a State Pattern
 public class Model {
 
+    // Professor recommended I use static variables (accessed within the concrete States)
+    public static State previous;
+    public static Expression expressionTree;
+
     private View calc;
-    private State current, previous;
-    // private Expression operand1, operator, operand2;
-    private String symbol;
-    private ArrayList<String> symbolList;
+    private State current;
+    private String previousDisplay;
 
     public Model(View _calc) {
         calc = _calc;
         current = new Start();
-        symbol = "";
-        symbolList = new ArrayList<>();
+        previousDisplay = "";
     }
 
-    public void updateModel(String _symbol) {
 
-        symbol = _symbol;
+    /**
+     * Advance the State Machine and update the Expression tree
+     *
+     * @param	symbol	    the user-inputted button
+     */
+    public void updateModel(String symbol) {
 
-        updateDisplay(symbol);
-
-//        Expression add = new AddSubExpr(new AtomExpr(3), new AtomExpr(4));
-//        Compute compute = new Compute();
-//        double result = compute.doComputation(add);
-//        System.out.println(result);
-
-        // 1st: each state has a handle method
-        // update the tree model
-
-        // 2nd: record input as string
-        // once equal is clicked, build tree
-        // calculate state handles calculation
-        // addsub finds plus, uses left and right of that for calculation
-        // e.g. addsub sees 2 as left and 3*5 as right
-
-
-
-        // MulDivExpr is abstract
-        // AtomExpr is a number (e.g. 3)
-        // MulDivOp is a binary multiply/divide (e.g. 4*5)
-        // so MulDivExpr could be 3*4*5, where 3 is AtomExpr and 4*5 is MulDivOp
-
-        previous = current; // Stored in case of discard within error state
+        // Stored in case of discard within Error state
+        previous = current;
         // Context in the State Pattern
-        current = current.handle(symbol);
+        current = current.getNextState(symbol);
 
-        // Have blank expression, pass to calculate to build tree, reference built tree here via visitors to do operations
+        // User Scenario US9
+        if(previous instanceof Start && current instanceof Start) {
+            updateDisplay(" ");
+        }
 
-        determineAction();
+        // Handle Error state with user choice
+        if(current instanceof Error) {
 
+            // Decides next state based on user input
+            current = current.getNextState(symbol);
+            if (current instanceof Start) { // Ensures tree will be cleared if user selected RESET
+                current.updateTree(symbol);
+                updateDisplay(" ");
+            }
 
+        } else { // Non-Error state
 
-    }
+            // The core (Non-Error state) operation that handles building expression tree
+            current.updateTree(symbol);
 
-    private void determineAction() {
+            if (current instanceof Calculate) {
+                handleCalculationResults(symbol);
+                // Ensure that the machine will go to Start state after calculation
+                current = current.getNextState(symbol);
 
-        if (symbol.equals("C")) { // Clear entire calculation progress
-            resetCalculation();
-        } else if (current instanceof Error) { // Handle Error state
-            handleError();
-        } else if (current instanceof Calculate) { // Calculate equation and reset
-            handleCalculation();
-            resetCalculation();
-        } else if (!(current instanceof Start && previous instanceof Start)) { // = pressed at Start, don't record symbol
-
-            int lastIndex = symbolList.size() - 1;
-
-            // If two numbers are pressed sequentially, combine them into one number in the list
-            if(!symbolList.isEmpty() && symbol.matches("[0-9]") && symbolList.get(lastIndex).matches("[0-9]")) {
-                String prevNumber = symbolList.get(lastIndex);
-                prevNumber += symbol;
-                symbolList.set(lastIndex, prevNumber);
-            } else { // Add current symbol to the list
-                symbolList.add(symbol);
             }
 
         }
 
-    }
-
-    private void handleCalculation() {
-
-        Expression expressionTree = ((Calculate) current).buildTree(symbolList);
+        // Display the user-inputted button on the calculator
+        updateDisplay(symbol);
 
     }
 
-    private void handleError() {
+    /**
+     * Call the helper methods of the Calculate State to perform a calculation
+     *
+     * @param   symbol      The symbol of the button last pressed
+     */
+    private void handleCalculationResults(String symbol) {
 
-        // Error dialog box
-        ErrorDialog error = new ErrorDialog();
-        int selection = error.getSelection();
+        // Clear what was previously displayed from memory
+        previousDisplay = "";
 
-        if(selection == 0) { // Reset
-            System.out.println("RESET\n");
-            resetCalculation();
-        } else if (selection == 1) { // Discard
-            System.out.println("DISCARD");
-            discardLastCommand();
-        } else { // User closes the dialog box without selecting an option
-            handleError(); // Ensures that user selects an option
+        // Returned from the Visitors
+        double result = ((Calculate) current).getResult();
+        // View panel will display the result with this number of decimal places
+        int places = 14;
+
+        try {
+
+            // Ensure that a large decimal value will display no more than the designated number of decimal places
+            BigDecimal resultRounded = new BigDecimal(result);
+            resultRounded = resultRounded.setScale(places, RoundingMode.HALF_UP).stripTrailingZeros();
+            updateDisplay(resultRounded.toPlainString());
+
+            // Send the equation to the Server upon successful calculation
+            String equation = ((Calculate) current).getEquation();
+            equation += " " + symbol + " " + resultRounded.toPlainString();
+            try {
+                Controller.connection.send(equation);
+            } catch (IOException ignored) {}
+
+        } catch (NumberFormatException nfe) { // User attempted to divide by 0
+            updateDisplay("Cannot divide by 0");
         }
 
+
     }
 
-    private void resetCalculation() {
-        // operand1 = operator = operand2 = null;
-        current = new Start();
-        symbolList.clear();
-    }
-
-    private void discardLastCommand() {
-        // operand2 = null;
-        current = previous;
-    }
-
+    /**
+     * Display content in the Calculator view panel
+     *
+     * @param	display	    the value to be displayed
+     */
     private void updateDisplay(String display) {
-        calc.updateResults(display);
+
+        // Will display the number of a button, calculation results, or error message
+        if (display.matches("[0-9]+\\.*[0-9]*") || display.length() > 1) {
+
+            // If what was previously displayed was a number, append the current
+            // number of a button to the previous number in the display panel
+            if (previousDisplay.matches("[0-9]+")) { // I
+                display = previousDisplay + display;
+            }
+            calc.updateDisplay(display);
+
+        } else if (display.equals("C") | display.equals(" ")) { // clear display
+            calc.updateDisplay(" ");
+        }
+
+        // Keep track of what was displayed
+        previousDisplay = display;
+
     }
 
 }

@@ -2,35 +2,47 @@ package se311.composite;
 
 import se311.visitor.Visitor;
 
-// Leaf
+// Leaf in a Composite pattern
 public class AtomExpr extends MulDivExpr {
 
-    private double number;
+    private String symbol;
 
     public AtomExpr() {
-        number = 0.0;
+        symbol = "";
     }
 
-    public AtomExpr(double n) {
-        number = n;
+    public AtomExpr(String s) {
+        symbol = s;
     }
 
+    /**
+     * Let a Visitor perform an operation on a specific atomic Expression
+     *
+     * @param	visitor	    a Visitor that handles a certain type of operation
+     */
     @Override
     public void accept(Visitor visitor) {
         visitor.visitAtomExpr(this);
     }
 
-    public double getNumber() {
-        return number;
+    /**
+     * Set the symbol (number) a specific atomic Expression
+     *
+     * @param	s  	    the symbol (number)
+     */
+    @Override
+    public void setSymbol(String s) {
+        symbol = s;
     }
 
-    public void setNumber(double n) {
-        number = n;
+    /**
+     * Get the symbol (number) a specific atomic Expression
+     *
+     * @return  	    the symbol (number)
+     */
+    @Override
+    public String getSymbol() {
+        return symbol;
     }
-
-//    @Override
-//    public void operation() {
-//
-//    }
 
 }

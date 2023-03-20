@@ -6,7 +6,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-// This view takes the subject role in an observer pattern
+// This View takes the Subject role in an Observer Pattern
 public class View extends JFrame {
 
     private JLabel resultDisplay;
@@ -24,7 +24,7 @@ public class View extends JFrame {
         add(displayPanel, BorderLayout.NORTH);
 
         // Text holding results
-        resultDisplay = new JLabel("0");
+        resultDisplay = new JLabel(" ");
         resultDisplay.setFont(new Font("Arial", Font.PLAIN, 30));
         displayPanel.add(resultDisplay);
 
@@ -56,35 +56,50 @@ public class View extends JFrame {
 
     }
 
-    // Add a listener registration function
-    // embedded observer pattern
+    /**
+     * Add a listener registration function to each button
+     *
+     * @param	listener    listens for a button press
+     */
     public void attachListener(ActionListener listener) {
 
+        // Embedded Observer Pattern
         for (Component b : buttonGroup.getComponents()) {
             ((JButton) b).addActionListener(listener);
         }
 
     }
 
-    public void updateResults(String value) {
+    /**
+     * Display something in the panel
+     *
+     * @param	value	    the value to be displayed
+     * @return				the word at the specified index in the list
+     */
+    public void updateDisplay(String value) {
         resultDisplay.setText(value);
     }
 
-    private void setButtonColors(JButton button, String s) {
-
-        if (s.matches("÷|×|-|\\+|=")) {
+    /**
+     * Set the buttons to certain colors based on their context in the Calculator view
+     *
+     * @param	button	    a button within the Calculator view
+     * @param   label		the label of the button
+     */
+    private void setButtonColors(JButton button, String label) {
+        
+        if (label.matches("÷|×|-|\\+|=")) { // Orange operator buttons
             button.setBackground(Color.ORANGE);
             button.setForeground(Color.WHITE);
-
-        } else if (s.equals("C")) {
+        } else if (label.equals("C")) { // Light gray clear button
             button.setBackground(Color.LIGHT_GRAY);
             button.setForeground(Color.BLACK);
-        } else {
+        } else { // Dark gray number buttons
             button.setBackground(Color.DARK_GRAY);
             button.setForeground(Color.WHITE);
         }
 
-        // Ensures color display on Mac
+        // Makes button colors display on Mac
         button.setOpaque(true);
 
     }

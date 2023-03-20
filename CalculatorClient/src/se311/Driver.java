@@ -1,17 +1,12 @@
 package se311;
 
-import se311.dialog.ErrorDialog;
-import se311.mvc.Controller;
-import se311.mvc.Model;
-import se311.mvc.View;
+import se311.mvc.*;
+
+import java.io.IOException;
 
 public class Driver {
 
-    public static void main(String[] args) {
-
-        // Instantiate calculator view here, pass to controller
-        // Make model class and pass model to controller, pass the view to the model (model updates view)
-        // Controller needs to know what model it is manipulating
+    public static void main(String[] args) throws IOException {
 
         View calculatorView = new View();
         Model model = new Model(calculatorView); // Model updates View

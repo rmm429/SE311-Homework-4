@@ -2,86 +2,113 @@ package se311.composite;
 
 import se311.visitor.Visitor;
 
-import java.util.ArrayList;
-
 // Composite
 public class MulDivOp extends MulDivExpr {
 
-    private Expression leftChild, rightChild;
+    private MulDivExpr leftChild, rightChild;
+    private String symbol;
 
     public MulDivOp() {
         leftChild = rightChild = null;
+        symbol = "";
     }
 
-    public MulDivOp(Expression lc, Expression rc) {
+    public MulDivOp(MulDivExpr lc, MulDivExpr rc) {
         leftChild = lc;
         rightChild = rc;
+        symbol = "";
     }
 
+    /**
+     * Let a Visitor perform an operation on a specific multiplication-division operation
+     *
+     * @param	visitor	    a Visitor that handles a certain type of operation
+     */
     @Override
     public void accept(Visitor visitor) {
         visitor.visitMulDivOp(this);
-        leftChild.accept(visitor);
-        rightChild.accept(visitor);
     }
 
-    public void addLeftChild(MulDivExpr lc) {
-        leftChild = lc;
+    /**
+     * Add an expression as the left child of a specific multiplication-division operation
+     *
+     * @param	lc  	    the Expression that will be added as the left child
+     */
+    @Override
+    public void addLeftChild(Expression lc) {
+        // Cast to MulDivExpr since a multiplication-division operation
+        // can only contain other multiplication-division Expressions
+        leftChild = (MulDivExpr) lc;
     }
 
-    public void addRightChild(MulDivExpr rc) {
-        rightChild = rc;
+    /**
+     * Add an expression as the right child of a specific multiplication-division operation
+     *
+     * @param	rc  	    the Expression that will be added as the right child
+     */
+    @Override
+    public void addRightChild(Expression rc) {
+        // Cast to MulDivExpr since a multiplication-division operation
+        // can only contain other multiplication-division Expressions
+        rightChild = (MulDivExpr) rc;
     }
 
+    /**
+     * Remove the left child of a specific multiplication-division operation
+     *
+     */
     @Override
     public void removeLeftChild() {
         leftChild = null;
     }
 
+    /**
+     * Remove the right child of a specific multiplication-division operation
+     *
+     */
     @Override
     public void removeRightChild() {
         rightChild = null;
     }
 
+    /**
+     * Get the left child of a specific multiplication-division operation
+     *
+     * @return				the left child (MulDivExpr)
+     */
     @Override
-    public Expression getLeftChild() {
+    public MulDivExpr getLeftChild() {
         return leftChild;
     }
 
+    /**
+     * Get the right child of a specific multiplication-division operation
+     *
+     * @return				the right child (MulDivExpr)
+     */
     @Override
-    public Expression getRightChild() {
+    public MulDivExpr getRightChild() {
         return rightChild;
     }
 
-//    private ArrayList<Expression> expressions;
-//
-//    public MulDivOp() {
-//        expressions = new ArrayList<>();
-//    }
-//
-//    @Override
-//    public void accept(Visitor visitor) {
-//        visitor.visitMulDivOp(this);
-//        for (Expression exp : expressions) {
-//            exp.accept(visitor);
-//        }
-//    }
-//
-//    @Override
-//    public void operation() {
-//    }
-//
-//    public void addChild(MulDivExpr child) {
-//        expressions.remove(child);
-//    }
-//
-//    public void removeChild(MulDivExpr child) {
-//        expressions.remove(child);
-//    }
-//
-//    @Override
-//    public Expression getChild(int child) {
-//        return expressions.get(child);
-//    }
+    /**
+     * Set the symbol (operator) a specific multiplication-division operation
+     *
+     * @param	s  	    the symbol (operator)
+     */
+    @Override
+    public void setSymbol(String s) {
+        symbol = s;
+    }
+
+    /**
+     * Get the symbol (operator) a specific multiplication-division operation
+     *
+     * @return  	    the symbol (operator)
+     */
+    @Override
+    public String getSymbol() {
+        return symbol;
+    }
 
 }

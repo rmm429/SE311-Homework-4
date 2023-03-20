@@ -1,7 +1,9 @@
 package se311.state;
 
+// State in a State Pattern
 public interface State {
 
-    State handle(String button);
+    State getNextState(String button);
+    void updateTree(String symbol);
 
 }

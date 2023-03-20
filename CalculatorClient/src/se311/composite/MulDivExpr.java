@@ -2,85 +2,111 @@ package se311.composite;
 
 import se311.visitor.Visitor;
 
-import java.util.ArrayList;
-
-// Composite
+// Composite in a Composite pattern
 public abstract class MulDivExpr implements Expression {
 
-    private Expression leftChild, rightChild;
+    private MulDivExpr leftChild, rightChild;
+    private String symbol;
 
     public MulDivExpr() {
         leftChild = rightChild = null;
     }
 
-    public MulDivExpr(Expression lc, Expression rc) {
+    public MulDivExpr(MulDivExpr lc, MulDivExpr rc) {
         leftChild = lc;
         rightChild = rc;
     }
 
+    /**
+     * Let a Visitor perform an operation on a specific multiplication-division Expresion
+     *
+     * @param	visitor	    a Visitor that handles a certain type of operation
+     */
     @Override
     public void accept(Visitor visitor) {
         visitor.visitMulDivExpr(this);
-        leftChild.accept(visitor);
-        rightChild.accept(visitor);
     }
 
+    /**
+     * Add an expression as the left child of a specific multiplication-division Expresion
+     *
+     * @param	lc  	    the Expression that will be added as the left child
+     */
+    @Override
     public void addLeftChild(Expression lc) {
-        leftChild = lc;
+        // Cast to MulDivExpr since a multiplication-division Expression
+        // can only contain other multiplication-division Expressions
+        leftChild = (MulDivExpr) lc;
     }
 
+    /**
+     * Add an expression as the right child of a specific multiplication-division Expresion
+     *
+     * @param	rc  	    the Expression that will be added as the right child
+     */
+    @Override
     public void addRightChild(Expression rc) {
-        rightChild = rc;
+        // Cast to MulDivExpr since a multiplication-division Expression
+        // can only contain other multiplication-division Expressions
+        rightChild = (MulDivExpr) rc;
     }
 
+    /**
+     * Remove the left child of a specific multiplication-division Expresion
+     *
+     */
+    @Override
     public void removeLeftChild() {
         leftChild = null;
     }
 
+    /**
+     * Remove the right child of a specific multiplication-division Expresion
+     *
+     */
+    @Override
     public void removeRightChild() {
         rightChild = null;
     }
 
-    public Expression getLeftChild() {
+    /**
+     * Get the left child of a specific multiplication-division Expresion
+     *
+     * @return				the left child (MulDivExpr)
+     */
+    @Override
+    public MulDivExpr getLeftChild() {
         return leftChild;
     }
 
-    public Expression getRightChild() {
+    /**
+     * Get the right child of a specific multiplication-division Expresion
+     *
+     * @return				the right child (MulDivExpr)
+     */
+    @Override
+    public MulDivExpr getRightChild() {
         return rightChild;
     }
 
-//    private ArrayList<Expression> expressions;
-//
-//    public MulDivExpr() {
-//        expressions = new ArrayList<>();
-//    }
-//
-//    @Override
-//    public void accept(Visitor visitor) {
-//        visitor.visitMulDivExpr(this);
-//        for (Expression exp : expressions) {
-//            exp.accept(visitor);
-//        }
-//    }
-//
-//    @Override
-//    public void operation() {
-//
-//    }
-//
-//    @Override
-//    public void addChild(Expression child) {
-//        expressions.add(child);
-//    }
-//
-//    @Override
-//    public void removeChild(Expression child) {
-//        expressions.remove(child);
-//    }
-//
-//    @Override
-//    public Expression getChild(int child) {
-//        return expressions.get(child);
-//    }
+    /**
+     * Set the symbol (operator) a specific multiplication-division Expresion
+     *
+     * @param	s  	    the symbol (operator)
+     */
+    @Override
+    public void setSymbol(String s) {
+        symbol = s;
+    }
+
+    /**
+     * Get the symbol (operator) a specific multiplication-division Expresion
+     *
+     * @return  	    the symbol (operator)
+     */
+    @Override
+    public String getSymbol() {
+        return symbol;
+    }
 
 }

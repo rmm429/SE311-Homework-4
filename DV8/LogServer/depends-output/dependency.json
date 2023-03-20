@@ -1,0 +1,106 @@
+{
+  "schemaVersion" : "1.0",
+  "name" : "dependency-sdsm",
+  "variables" : [ "src/se311/Driver.java", "src/se311/RequestHandler.java" ],
+  "cells" : [ {
+    "src" : 1,
+    "dest" : 0,
+    "values" : {
+      "Use" : 4.0
+    },
+    "details" : [ {
+      "src" : {
+        "object" : "se311.RequestHandler.run",
+        "file" : "src/se311/RequestHandler.java",
+        "lineNumber" : 30
+      },
+      "dest" : {
+        "object" : "se311.Driver.numEquations",
+        "file" : "src/se311/Driver.java",
+        "lineNumber" : 10
+      },
+      "type" : "Use"
+    }, {
+      "src" : {
+        "object" : "se311.RequestHandler.run",
+        "file" : "src/se311/RequestHandler.java",
+        "lineNumber" : 30
+      },
+      "dest" : {
+        "object" : "se311.Driver",
+        "file" : "src/se311/Driver.java",
+        "lineNumber" : 7
+      },
+      "type" : "Use"
+    }, {
+      "src" : {
+        "object" : "se311.RequestHandler.run",
+        "file" : "src/se311/RequestHandler.java",
+        "lineNumber" : 31
+      },
+      "dest" : {
+        "object" : "se311.Driver.numEquations",
+        "file" : "src/se311/Driver.java",
+        "lineNumber" : 10
+      },
+      "type" : "Use"
+    }, {
+      "src" : {
+        "object" : "se311.RequestHandler.run",
+        "file" : "src/se311/RequestHandler.java",
+        "lineNumber" : 31
+      },
+      "dest" : {
+        "object" : "se311.Driver",
+        "file" : "src/se311/Driver.java",
+        "lineNumber" : 7
+      },
+      "type" : "Use"
+    } ]
+  }, {
+    "src" : 0,
+    "dest" : 1,
+    "values" : {
+      "Call" : 1.0,
+      "Create" : 1.0,
+      "Contain" : 1.0
+    },
+    "details" : [ {
+      "src" : {
+        "object" : "se311.Driver.main",
+        "file" : "src/se311/Driver.java",
+        "lineNumber" : 22
+      },
+      "dest" : {
+        "object" : "se311.RequestHandler",
+        "file" : "src/se311/RequestHandler.java",
+        "lineNumber" : 9
+      },
+      "type" : "Call"
+    }, {
+      "src" : {
+        "object" : "se311.Driver.main",
+        "file" : "src/se311/Driver.java",
+        "lineNumber" : 22
+      },
+      "dest" : {
+        "object" : "se311.RequestHandler",
+        "file" : "src/se311/RequestHandler.java",
+        "lineNumber" : 9
+      },
+      "type" : "Create"
+    }, {
+      "src" : {
+        "object" : "se311.Driver.main",
+        "file" : "src/se311/Driver.java",
+        "lineNumber" : 22
+      },
+      "dest" : {
+        "object" : "se311.RequestHandler",
+        "file" : "src/se311/RequestHandler.java",
+        "lineNumber" : 9
+      },
+      "type" : "Contain"
+    } ]
+  } ]
+}
