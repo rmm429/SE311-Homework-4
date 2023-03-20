@@ -5,14 +5,32 @@ import se311.visitor.Visitor;
 // Leaf
 public class AtomExpr extends MulDivExpr {
 
+    private double number;
+
+    public AtomExpr() {
+        number = 0.0;
+    }
+
+    public AtomExpr(double n) {
+        number = n;
+    }
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visitAtomExpr(this);
     }
 
-    @Override
-    public void operation() {
-
+    public double getNumber() {
+        return number;
     }
+
+    public void setNumber(double n) {
+        number = n;
+    }
+
+//    @Override
+//    public void operation() {
+//
+//    }
 
 }

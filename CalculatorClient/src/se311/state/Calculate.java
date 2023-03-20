@@ -1,5 +1,11 @@
 package se311.state;
 
+import se311.composite.AddSubExpr;
+import se311.composite.Expression;
+import se311.visitor.Visitor;
+
+import java.util.ArrayList;
+
 public class Calculate implements State {
 
     private State next;
@@ -14,6 +20,15 @@ public class Calculate implements State {
 
         System.out.println(log);
         return next;
+
+    }
+
+    public Expression buildTree(ArrayList<String> symbolList) {
+
+        System.out.println(symbolList + "\n");
+
+        Expression expressionTree = new AddSubExpr();
+        return expressionTree;
 
     }
     

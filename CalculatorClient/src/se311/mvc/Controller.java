@@ -32,8 +32,8 @@ public class Controller implements ActionListener {
 
         // call Model to do State Transition
 
-        String command = e.getActionCommand();
-        model.updateModel(command);
+        String symbol = e.getActionCommand();
+        model.updateModel(symbol);
 
 
 

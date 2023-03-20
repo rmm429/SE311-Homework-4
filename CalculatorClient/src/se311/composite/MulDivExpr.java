@@ -5,40 +5,82 @@ import se311.visitor.Visitor;
 import java.util.ArrayList;
 
 // Composite
-public class MulDivExpr implements Expression {
+public abstract class MulDivExpr implements Expression {
 
-    private ArrayList<Expression> expressions;
+    private Expression leftChild, rightChild;
 
     public MulDivExpr() {
-        expressions = new ArrayList<>();
+        leftChild = rightChild = null;
+    }
+
+    public MulDivExpr(Expression lc, Expression rc) {
+        leftChild = lc;
+        rightChild = rc;
     }
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visitMulDivExpr(this);
-        for (Expression exp : expressions) {
-            exp.accept(visitor);
-        }
+        leftChild.accept(visitor);
+        rightChild.accept(visitor);
     }
 
-    @Override
-    public void operation() {
-
+    public void addLeftChild(Expression lc) {
+        leftChild = lc;
     }
 
-    @Override
-    public void addChild(Expression child) {
-        expressions.add(child);
+    public void addRightChild(Expression rc) {
+        rightChild = rc;
     }
 
-    @Override
-    public void removeChild(Expression child) {
-        expressions.remove(child);
+    public void removeLeftChild() {
+        leftChild = null;
     }
 
-    @Override
-    public Expression getChild(int child) {
-        return expressions.get(child);
+    public void removeRightChild() {
+        rightChild = null;
     }
+
+    public Expression getLeftChild() {
+        return leftChild;
+    }
+
+    public Expression getRightChild() {
+        return rightChild;
+    }
+
+//    private ArrayList<Expression> expressions;
+//
+//    public MulDivExpr() {
+//        expressions = new ArrayList<>();
+//    }
+//
+//    @Override
+//    public void accept(Visitor visitor) {
+//        visitor.visitMulDivExpr(this);
+//        for (Expression exp : expressions) {
+//            exp.accept(visitor);
+//        }
+//    }
+//
+//    @Override
+//    public void operation() {
+//
+//    }
+//
+//    @Override
+//    public void addChild(Expression child) {
+//        expressions.add(child);
+//    }
+//
+//    @Override
+//    public void removeChild(Expression child) {
+//        expressions.remove(child);
+//    }
+//
+//    @Override
+//    public Expression getChild(int child) {
+//        return expressions.get(child);
+//    }
 
 }
