@@ -8,7 +8,7 @@ Notes:
 	However, the Calculator can still function wihtout the Server.
 	The console of the Calculator Client will output whether or not it has connected to the Server.
 	Please wait for confirmaiton in the Calculator console that either a connection was established or not before performing operations.
-	If executed by means of the JAR file, the calculator will not accpet input for a couple of seconds until it has either connected to the Server or not.
+	If executed by means of the JAR file, the calculator will not accpet input for a couple of seconds until it has either connected to the Server or determined it 	can not.
 
 	The Server will display an equation every time it is received from any Client as well as a tally of the total calcuations performed before it.
 
