@@ -1,3 +1,5 @@
+To run this program without an IDE, download and execute the JAR file under the Releases section.
+
 There are two separate Java projects contained - CalculatorClient and LogServer.
 To run either program, run the Driver.java file in the "src/se311" folder contained within either of the project directories.
 The main() method is included here for both.
